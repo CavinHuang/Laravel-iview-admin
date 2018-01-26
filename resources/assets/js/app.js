@@ -5,7 +5,7 @@ import store from './store';
 import App from './app.vue';
 import 'iview/dist/styles/iview.css';
 
-Vue.use(iView);
+Vue.use(iView)
 
 new Vue({
     el: '#app',

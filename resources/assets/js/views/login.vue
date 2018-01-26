@@ -13,7 +13,7 @@
                 <div class="form-con">
                     <Form ref="loginForm" :model="form" :rules="rules">
                         <FormItem prop="userName">
-                            <Input v-model="form.userName" placeholder="请输入用户名">
+                            <Input v-model="form.email" placeholder="请输入用户名">
                                 <span slot="prepend">
                                     <Icon :size="16" type="person"></Icon>
                                 </span>
@@ -38,15 +38,16 @@
 
 <script>
 import Cookies from 'js-cookie';
+import axios from '../libs/http'
 export default {
     data () {
         return {
             form: {
-                userName: '',
+                email: '',
                 password: ''
             },
             rules: {
-                userName: [
+                email: [
                     { required: true, message: '账号不能为空', trigger: 'blur' }
                 ],
                 password: [
@@ -59,7 +60,11 @@ export default {
         handleSubmit () {
             this.$refs.loginForm.validate((valid) => {
                 if (valid) {
-                    Cookies.set('user', this.form.userName);
+                    //Cookies.set('user', this.form.userName);
+                    axios.post('/api/auth/login', this.form).then(res => {
+                      this.dispatch('logined', res.token_type+' '+res.access_token)
+                    })
+                    
                     this.$router.push({
                         name: 'home_index'
                     });
