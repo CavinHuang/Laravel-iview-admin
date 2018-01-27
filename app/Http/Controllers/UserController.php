@@ -9,6 +9,7 @@ class UserController extends Controller
 {
     //
   public function profile(){
-    return response(['state' => 1, 'user' => Auth::guard('api')->user()]);
+
+    return $this->ajaxReturn(200, 1, '查询用户信息成功', Auth::guard('api')->user());
   }
 }

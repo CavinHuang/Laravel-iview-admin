@@ -16,10 +16,10 @@ class AuthController extends Controller
     $credentials = request(['email', 'password']);
 
     if (! $token = auth()->attempt($credentials)) {
-      return response()->json(['error' => 'Unauthorized'], 401);
+      return $this->ajaxReturn(200, 0, '账号或密码错误');
     }
 
-    return $this->respondWithToken($token);
+    return $this->ajaxReturn(200, 1, '登录成功', $this->respondWithToken($token));
   }
 
   /**
@@ -63,10 +63,12 @@ class AuthController extends Controller
    */
   protected function respondWithToken($token)
   {
-    return response()->json([
+    $info = [
       'access_token' => $token,
       'token_type' => 'bearer',
-      'expires_in' => auth()->factory()->getTTL() * 60
-    ]);
+      'expires_in' => auth()->factory()->getTTL() * 60,
+      'user_info' => auth()->user()
+    ];
+    return $info;
   }
 }

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Larvuent</title>
+    <script src="{{ asset('/js/tinymce.min.js') }}"></script>
 </head>
 <body>
 <div id="app"></div>
